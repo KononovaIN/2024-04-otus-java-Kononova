@@ -2,7 +2,6 @@ package ru.otus;
 
 import com.google.common.base.MoreObjects;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 
 @AllArgsConstructor
 public class Person {
