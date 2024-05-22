@@ -1,12 +1,9 @@
 package homework;
 
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class CustomerService {
-    private final TreeMap<Customer, String> customers = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
+    private final NavigableMap<Customer, String> customers = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
 
     public Map.Entry<Customer, String> getSmallest() {
         return clone(customers.firstEntry());
@@ -28,7 +25,7 @@ public class CustomerService {
                 return new AbstractMap.SimpleImmutableEntry<>(entry.getKey().clone(), entry.getValue());
             }
         } else {
-            return entry;
+            return null;
         }
     }
 }
