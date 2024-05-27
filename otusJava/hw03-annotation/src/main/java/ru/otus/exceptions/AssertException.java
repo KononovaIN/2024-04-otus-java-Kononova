@@ -1,4 +1,4 @@
 package ru.otus.exceptions;
 
-public class AssertException extends RuntimeException{
+public class AssertException extends RuntimeException {
 }

@@ -3,8 +3,10 @@ package ru.otus;
 import ru.otus.annotations.After;
 import ru.otus.annotations.Before;
 import ru.otus.annotations.Test;
+import ru.otus.exceptions.ReflectionException;
 import ru.otus.statistic.Statistic;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,74 +18,51 @@ import static ru.otus.statistic.StatusTest.SUCCESS;
 
 public class TestStarter {
 
-    public static Statistic start(String fullClassName) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Statistic statistic = new Statistic();
+    public static Statistic start(String fullClassName) throws ReflectionException {
+        try {
+            Statistic statistic = new Statistic();
 
-        Class<?> clazz = Class.forName(fullClassName);
-        Method[] methods = clazz.getMethods();
+            Class<?> clazz = Class.forName(fullClassName);
+            Method[] methods = clazz.getMethods();
 
-        final String before = getMethodNameBefore(methods);
-        final String after = getMethodNameAfter(methods);
-        List<String> tests = getMethodsNameTest(methods);
+            List<Method> before = getMethodByAnnotation(methods, Before.class);
+            List<Method> after = getMethodByAnnotation(methods, After.class);
+            List<Method> tests = getMethodByAnnotation(methods, Test.class);
 
-        for (var test : tests) {
-            Object o = getInstance(clazz);
+            for (var test : tests) {
+                Object o = getInstance(clazz);
 
-            try {
-                if (isCanInvoke(before)) {
-                    clazz.getMethod(before).invoke(o);
-                }
+                try {
+                    invoke(before, o);
+                    test.invoke(o);
 
-                clazz.getMethod(test).invoke(o);
-
-                statistic.getResult().put(test, SUCCESS);
-            } catch (Exception e) {
-                statistic.getResult().put(test, ERROR);
-            } finally {
-                if (isCanInvoke(after)) {
-                    clazz.getMethod(after).invoke(o);
+                    statistic.getResult().put(test.getName(), SUCCESS);
+                } catch (Exception e) {
+                    statistic.getResult().put(test.getName(), ERROR);
+                } finally {
+                    invoke(after, o);
                 }
             }
-        }
 
-        return statistic;
+            return statistic;
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
+            throw new ReflectionException(e);
+        }
     }
 
-    private static String getMethodNameBefore(Method[] methods) {
+    private static List<Method> getMethodByAnnotation(Method[] methods, Class<? extends Annotation> annotationClass) {
+        List<Method> listMethods = new LinkedList<>();
+
         for (var method : methods) {
-            Before annotation = method.getAnnotation(Before.class);
+            Annotation annotation = method.getAnnotation(annotationClass);
 
             if (annotation != null) {
-                return method.getName();
+                listMethods.add(method);
             }
         }
 
-        return "";
-    }
-
-    private static String getMethodNameAfter(Method[] methods) {
-        for (var method : methods) {
-            After annotation = method.getAnnotation(After.class);
-
-            if (annotation != null) {
-                return method.getName();
-            }
-        }
-
-        return "";
-    }
-
-    private static List<String> getMethodsNameTest(Method[] methods) {
-        List<String> tests = new LinkedList<>();
-        for (var method : methods) {
-            Test annotation = method.getAnnotation(Test.class);
-
-            if (annotation != null) {
-                tests.add(method.getName());
-            }
-        }
-
-        return tests;
+        return listMethods;
     }
 
     private static Object getInstance(Class<?> clazz) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
@@ -91,7 +70,9 @@ public class TestStarter {
         return constructor.newInstance();
     }
 
-    private static boolean isCanInvoke(String name){
-        return !name.isEmpty();
+    private static void invoke(List<Method> methods, Object o) throws InvocationTargetException, IllegalAccessException {
+        for (Method m : methods) {
+            m.invoke(o);
+        }
     }
 }

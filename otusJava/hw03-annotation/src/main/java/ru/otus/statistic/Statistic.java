@@ -1,7 +1,6 @@
 package ru.otus.statistic;
 
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,7 @@ import java.util.Map;
 public class Statistic {
     private Map<String, StatusTest> result;
 
-    public Statistic(){
+    public Statistic() {
         result = new HashMap<>();
     }
 
