@@ -25,9 +25,9 @@ public class TestStarter {
             Class<?> clazz = Class.forName(fullClassName);
             Method[] methods = clazz.getMethods();
 
-            List<Method> before = getMethodByAnnotation(methods, Before.class);
-            List<Method> after = getMethodByAnnotation(methods, After.class);
-            List<Method> tests = getMethodByAnnotation(methods, Test.class);
+            List<Method> before = isAnnotationPresent(methods, Before.class);
+            List<Method> after = isAnnotationPresent(methods, After.class);
+            List<Method> tests = isAnnotationPresent(methods, Test.class);
 
             for (var test : tests) {
                 Object o = getInstance(clazz);
@@ -51,7 +51,7 @@ public class TestStarter {
         }
     }
 
-    private static List<Method> getMethodByAnnotation(Method[] methods, Class<? extends Annotation> annotationClass) {
+    private static List<Method> isAnnotationPresent(Method[] methods, Class<? extends Annotation> annotationClass) {
         List<Method> listMethods = new LinkedList<>();
 
         for (var method : methods) {
