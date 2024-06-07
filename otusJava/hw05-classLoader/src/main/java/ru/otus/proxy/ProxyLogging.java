@@ -57,7 +57,7 @@ public class ProxyLogging {
             return method.invoke(instance, args);
         }
 
-        private <T> List<MethodInfo> findMethodsWithAnnotation(T instance) {
+        private List<MethodInfo> findMethodsWithAnnotation(T instance) {
             return Arrays.stream(instance.getClass().getMethods())
                     .filter(m -> m.isAnnotationPresent(Log.class))
                     .map(MethodInfo::buildMethodInfo)
