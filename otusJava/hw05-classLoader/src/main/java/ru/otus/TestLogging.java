@@ -1,22 +1,9 @@
 package ru.otus;
 
-import ru.otus.annotation.Log;
+public interface TestLogging {
+    void calculation(int param);
 
-public class TestLogging implements TestLoggingInterface {
-    @Override
-    @Log
-    public void calculation(int param) {
-    }
+    void calculation(int param1, int param2);
 
-    @Override
-    @Log
-    public void calculation(int param1, int param2) {
-
-    }
-
-    @Override
-    @Log
-    public void calculation(int param1, int param2, String param3) {
-
-    }
+    void calculation(int param1, int param2, String param3);
 }

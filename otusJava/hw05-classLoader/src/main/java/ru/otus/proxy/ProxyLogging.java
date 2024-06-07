@@ -3,7 +3,6 @@ package ru.otus.proxy;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.TestLoggingInterface;
 import ru.otus.annotation.Log;
 
 import java.lang.reflect.InvocationHandler;
@@ -17,12 +16,11 @@ import java.util.stream.Collectors;
 public class ProxyLogging {
     private static final Logger logger = LoggerFactory.getLogger(ProxyLogging.class);
 
-    public static TestLoggingInterface create(TestLoggingInterface instance) {
-        InvocationHandler handler = new ProxyInvocationHandler(instance);
-        return (TestLoggingInterface)
-                Proxy.newProxyInstance(instance.getClass().getClassLoader(),
-                        instance.getClass().getInterfaces(),
-                        handler);
+    public static <T> T create(T instance) {
+        InvocationHandler handler = new ProxyInvocationHandler<>(instance);
+        return (T) Proxy.newProxyInstance(instance.getClass().getClassLoader(),
+                instance.getClass().getInterfaces(),
+                handler);
     }
 
     @Builder
@@ -41,13 +39,13 @@ public class ProxyLogging {
     }
 
 
-    static class ProxyInvocationHandler implements InvocationHandler {
-        private final TestLoggingInterface testLoggingInterface;
+    static class ProxyInvocationHandler<T> implements InvocationHandler {
+        private final T instance;
         private final List<MethodInfo> methodsInfo;
 
-        public ProxyInvocationHandler(TestLoggingInterface testLoggingInterface) {
-            this.testLoggingInterface = testLoggingInterface;
-            this.methodsInfo = findMethodsWithAnnotation(testLoggingInterface);
+        public ProxyInvocationHandler(T instance) {
+            this.instance = instance;
+            this.methodsInfo = findMethodsWithAnnotation(instance);
         }
 
         @Override
@@ -56,11 +54,11 @@ public class ProxyLogging {
                 logger.info("executed method:{}, param:{}", method.getName(), args);
             }
 
-            return method.invoke(testLoggingInterface, args);
+            return method.invoke(instance, args);
         }
 
-        private List<MethodInfo> findMethodsWithAnnotation(TestLoggingInterface test) {
-            return Arrays.stream(test.getClass().getMethods())
+        private <T> List<MethodInfo> findMethodsWithAnnotation(T instance) {
+            return Arrays.stream(instance.getClass().getMethods())
                     .filter(m -> m.isAnnotationPresent(Log.class))
                     .map(MethodInfo::buildMethodInfo)
                     .collect(Collectors.toList());
