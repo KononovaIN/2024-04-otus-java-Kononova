@@ -15,12 +15,12 @@ public enum Denomitations {
 
     private final int denomination;
 
-    public static Denomitations getMinDenomination(){
+    public static Denomitations getMinDenomination() {
         Denomitations min = HUNDRED;
 
         Denomitations[] values = Denomitations.values();
-        for(Denomitations val : values){
-            if(val.getDenomination() < min.denomination){
+        for (Denomitations val : values) {
+            if (val.getDenomination() < min.denomination) {
                 min = val;
             }
         }

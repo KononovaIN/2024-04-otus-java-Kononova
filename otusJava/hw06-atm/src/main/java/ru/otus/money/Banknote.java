@@ -3,8 +3,6 @@ package ru.otus.money;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
-import ru.otus.exceptions.InvalidParameterException;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -35,7 +33,7 @@ public abstract class Banknote {
         return new AbstractMap.SimpleImmutableEntry<>(denomination, value);
     }
 
-    public int getDenomination(){
+    public int getDenomination() {
         return denomination.getDenomination();
     }
 }

@@ -1,12 +1,14 @@
 package ru.otus;
 
-import lombok.ToString;
 import ru.otus.exceptions.BusinessException;
 import ru.otus.exceptions.InvalidParameterException;
 import ru.otus.money.*;
 import ru.otus.utils.Utils;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 import static ru.otus.money.Denomitations.*;
 
@@ -49,7 +51,7 @@ public class ATM {
         for (Banknote banknote : banknotes) {
             if (amount > 0) {
                 Map.Entry<Denomitations, Integer> banknotesByAmount = banknote.getBanknotesByAmount(amount);
-                if(banknotesByAmount.getValue() != 0) {
+                if (banknotesByAmount.getValue() != 0) {
                     result.put(banknotesByAmount.getKey(), banknotesByAmount.getValue());
                     amount -= banknotesByAmount.getKey().getDenomination() * banknotesByAmount.getValue();
                 }
@@ -58,7 +60,7 @@ public class ATM {
             }
         }
 
-        if(amount != 0){
+        if (amount != 0) {
             throw new BusinessException("There are not enough banknotes to issue the requested amount");
         }
 
@@ -67,10 +69,10 @@ public class ATM {
 
     @Override
     public String toString() {
-       StringBuilder sb = new StringBuilder("ATM has: \n");
+        StringBuilder sb = new StringBuilder("ATM has: \n");
         for (Banknote next : banknotes) {
-           sb.append("\tDenomination: ").append(next.getDenomination())
-                   .append(" count: ").append(next.getCount()).append("\n");
+            sb.append("\tDenomination: ").append(next.getDenomination())
+                    .append(" count: ").append(next.getCount()).append("\n");
         }
 
         return sb.toString();
