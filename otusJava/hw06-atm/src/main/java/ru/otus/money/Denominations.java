@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Denomitations {
+public enum Denominations {
     HUNDRED(100),
     TWO_HUNDRED(200),
     FIVE_HUNDRED(500),
@@ -15,11 +15,11 @@ public enum Denomitations {
 
     private final int denomination;
 
-    public static Denomitations getMinDenomination() {
-        Denomitations min = HUNDRED;
+    public static Denominations getMinDenomination() {
+        Denominations min = HUNDRED;
 
-        Denomitations[] values = Denomitations.values();
-        for (Denomitations val : values) {
+        Denominations[] values = Denominations.values();
+        for (Denominations val : values) {
             if (val.getDenomination() < min.denomination) {
                 min = val;
             }

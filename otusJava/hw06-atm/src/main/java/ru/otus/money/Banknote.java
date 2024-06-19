@@ -9,16 +9,16 @@ import java.util.Map;
 
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "count")
-public abstract class Banknote {
+public class Banknote {
     @Getter
     private int count;
-    private final Denomitations denomination;
+    private final Denominations denomination;
 
     public void addBanknotes(int count) {
         this.count += count;
     }
 
-    public Map.Entry<Denomitations, Integer> getBanknotesByAmount(int amount) {
+    public Map.Entry<Denominations, Integer> getBanknotesByAmount(int amount) {
         int countBank = amount / denomination.getDenomination();
         int value;
 

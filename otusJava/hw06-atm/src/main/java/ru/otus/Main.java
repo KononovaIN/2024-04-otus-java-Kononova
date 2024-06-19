@@ -1,16 +1,31 @@
 package ru.otus;
 
+import ru.otus.money.Denominations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static ru.otus.money.Denominations.*;
+
 public class Main {
     public static void main(String[] args) {
-        ATM atm = new ATM();
-        atm.loadBanknotes(5, 100);
-        atm.loadBanknotes(5, 200);
-        atm.loadBanknotes(5, 500);
-        atm.loadBanknotes(1, 1000);
-        atm.loadBanknotes(1, 2000);
-        atm.loadBanknotes(1, 5000);
+        List<Denominations> denominations = new ArrayList<>();
+        denominations.add(HUNDRED);
+        denominations.add(TWO_HUNDRED);
+        denominations.add(FIVE_HUNDRED);
+        denominations.add(THOUSAND);
+        denominations.add(TWO_THOUSAND);
+        denominations.add(FIVE_THOUSAND);
 
-        System.out.println(atm.getAmount(10_000));
-        System.out.println(atm);
+        ATMImpl atmImpl = new ATMImpl(denominations);
+        atmImpl.loadBanknotes(HUNDRED, 5);
+        atmImpl.loadBanknotes(TWO_HUNDRED, 5);
+        atmImpl.loadBanknotes(FIVE_HUNDRED, 5);
+        atmImpl.loadBanknotes(THOUSAND, 1);
+        atmImpl.loadBanknotes(TWO_THOUSAND, 1);
+
+        System.out.println(atmImpl.getAmount(10_000));
+        System.out.println(atmImpl);
     }
 }
