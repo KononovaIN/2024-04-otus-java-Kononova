@@ -1,5 +1,6 @@
 package ru.otus;
 
+import lombok.ToString;
 import ru.otus.exceptions.BusinessException;
 import ru.otus.exceptions.InvalidParameterException;
 import ru.otus.money.Banknote;
@@ -9,6 +10,7 @@ import ru.otus.utils.Utils;
 
 import java.util.*;
 
+@ToString
 public class ATMImpl implements ATM {
     private final Storage storage = new Storage();
 

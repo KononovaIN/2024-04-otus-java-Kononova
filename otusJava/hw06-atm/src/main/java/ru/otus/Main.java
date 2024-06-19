@@ -25,7 +25,7 @@ public class Main {
         atmImpl.loadBanknotes(THOUSAND, 1);
         atmImpl.loadBanknotes(TWO_THOUSAND, 1);
 
-        System.out.println(atmImpl.getAmount(10_000));
+        System.out.println(atmImpl.getAmount(5_000));
         System.out.println(atmImpl);
     }
 }
