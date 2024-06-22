@@ -5,6 +5,8 @@ include("hw03-annotation")
 include("hw04-gc")
 include("hw05-classLoader")
 
+include("hw07-messageHandler")
+
 pluginManagement {
     val jgitver: String by settings
     val dependencyManagement: String by settings
