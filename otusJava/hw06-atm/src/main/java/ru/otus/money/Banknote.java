@@ -18,7 +18,7 @@ public class Banknote {
         this.count += count;
     }
 
-    public Map.Entry<Denominations, Integer> getBanknotesByAmount(int amount) {
+    public Map.Entry<Denominations, Integer> issueBanknotesByAmount(int amount) {
         int countBank = amount / denomination.getDenomination();
         int value;
 

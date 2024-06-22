@@ -16,7 +16,7 @@ class ATMImplTest {
     private static ATMImpl atm;
 
     @BeforeAll
-    static void setUp(){
+    static void setUp() {
         Map<Denominations, Integer> denominations = new HashMap<>();
         denominations.put(HUNDRED, 5);
         denominations.put(TWO_HUNDRED, 1);

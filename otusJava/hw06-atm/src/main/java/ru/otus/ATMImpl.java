@@ -2,24 +2,25 @@ package ru.otus;
 
 import lombok.ToString;
 import ru.otus.exceptions.BusinessException;
-import ru.otus.exceptions.InvalidParameterException;
 import ru.otus.money.Banknote;
 import ru.otus.money.Denominations;
 import ru.otus.money.Storage;
 import ru.otus.utils.Utils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ToString
 public class ATMImpl implements ATM {
     private final Storage storage = new Storage();
 
     public ATMImpl(List<Denominations> denominations) {
-        denominations.forEach(d -> storage.add(d, 0));
+        denominations.forEach(d -> storage.addNewBanknotes(d, 0));
     }
 
     public ATMImpl(Map<Denominations, Integer> denominations) {
-        denominations.forEach(storage::add);
+        denominations.forEach(storage::addNewBanknotes);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class ATMImpl implements ATM {
 
         for (Banknote banknote : storage.getBanknotes()) {
             if (amount > 0) {
-                Map.Entry<Denominations, Integer> banknotesByAmount = banknote.getBanknotesByAmount(amount);
+                Map.Entry<Denominations, Integer> banknotesByAmount = banknote.issueBanknotesByAmount(amount);
                 if (banknotesByAmount.getValue() != 0) {
                     result.put(banknotesByAmount.getKey(), banknotesByAmount.getValue());
                     amount -= banknotesByAmount.getKey().getDenomination() * banknotesByAmount.getValue();
@@ -47,6 +48,8 @@ public class ATMImpl implements ATM {
         }
 
         if (amount != 0) {
+            result.forEach(storage::loadBanknotes);
+
             throw new BusinessException("There are not enough banknotes to issue the requested amount");
         }
 

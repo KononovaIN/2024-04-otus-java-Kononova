@@ -1,22 +1,22 @@
 package ru.otus.money;
 
 import lombok.Getter;
-import ru.otus.exceptions.InvalidParameterException;
 
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.TreeSet;
 
 @Getter
 public class Storage {
-    private TreeSet<Banknote> banknotes = new TreeSet<>(Comparator.comparingInt(Banknote::getDenomination).reversed());
+    private final TreeSet<Banknote> banknotes = new TreeSet<>(Comparator.comparingInt(Banknote::getDenomination).reversed());
 
-    public void add(Denominations denomination, int count){
+    public void addNewBanknotes(Denominations denomination, int count) {
         banknotes.add(new Banknote(count, denomination));
     }
 
     public void loadBanknotes(Denominations denomination, int count) {
-        Banknote banknoteOpt = findBanknote(denomination);
-        banknoteOpt.addBanknotes(count);
+        Optional<Banknote> banknoteOpt = findBanknote(denomination);
+        banknoteOpt.ifPresent(banknote -> banknote.addBanknotes(count));
     }
 
     @Override
@@ -30,13 +30,13 @@ public class Storage {
         return sb.toString();
     }
 
-    private Banknote findBanknote(Denominations denomination) {
+    private Optional<Banknote> findBanknote(Denominations denomination) {
         for (Banknote next : banknotes) {
             if (next.getDenomination() == denomination.getDenomination()) {
-                return next;
+                return Optional.of(next);
             }
         }
 
-        throw new InvalidParameterException("Unknown denomination");
+        return Optional.empty();
     }
 }
