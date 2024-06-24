@@ -4,19 +4,23 @@ import ru.otus.listener.Listener;
 import ru.otus.model.Message;
 import ru.otus.model.ObjectForMessage;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class HistoryListener implements Listener, HistoryReader {
 
-    private final Deque<Message> messages = new ArrayDeque<>();
+    private final Map<Long, Message> messages = new HashMap<>();
 
     @Override
     public void onUpdated(Message msg) {
-        var field13Data = msg.getField13().getData();
-        var newFiled13 = new ObjectForMessage();
-        newFiled13.setData(field13Data.stream().toList());
+        ObjectForMessage newFiled13 = null;
+
+        if (msg.getField13() != null) {
+            var field13Data = msg.getField13().getData();
+            newFiled13 = new ObjectForMessage();
+            newFiled13.setData(field13Data.stream().toList());
+        }
 
         Message message = new Message.Builder(msg.getId())
                 .field1(msg.getField1())
@@ -34,13 +38,11 @@ public class HistoryListener implements Listener, HistoryReader {
                 .field13(newFiled13)
                 .build();
 
-        messages.add(message);
+        messages.put(msg.getId(), message);
     }
 
     @Override
     public Optional<Message> findMessageById(long id) {
-        return messages.stream()
-                .filter(m -> m.getId() == id)
-                .findFirst();
+        return Optional.ofNullable(messages.get(id));
     }
 }
