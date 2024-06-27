@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 public class ProcessorEvenSecondException implements Processor {
-    private TimeProvider timeProvider;
+    private final TimeProvider timeProvider;
 
     @Override
     public Message process(Message message) {
