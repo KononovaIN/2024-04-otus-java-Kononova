@@ -33,8 +33,9 @@ allprojects {
     val testcontainersBom: String by project
     val protobufBom: String by project
     val guava: String by project
-    val lombok: String by project
-    val slf4j: String by project
+    val jmh: String by project
+    val asm: String by project
+    val glassfishJson: String by project
 
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
@@ -45,8 +46,28 @@ allprojects {
                 mavenBom("com.google.protobuf:protobuf-bom:$protobufBom")
             }
             dependency("com.google.guava:guava:$guava")
-            dependency("org.projectlombok:lombok:$lombok")
-            dependency("org.slf4j:slf4j-api:$slf4j")
+            dependency("org.openjdk.jmh:jmh-core:$jmh")
+            dependency("org.openjdk.jmh:jmh-generator-annprocess:$jmh")
+            dependency("org.glassfish:jakarta.json:$glassfishJson")
+            dependency("org.ow2.asm:asm-commons:$asm")
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            failOnVersionConflict()
+
+            force("javax.servlet:servlet-api:2.5")
+            force("commons-logging:commons-logging:1.1.1")
+            force("commons-lang:commons-lang:2.5")
+            force("org.codehaus.jackson:jackson-core-asl:1.8.8")
+            force("org.codehaus.jackson:jackson-mapper-asl:1.8.8")
+            force("org.sonarsource.analyzer-commons:sonar-analyzer-commons:2.8.0.2699")
+            force("org.sonarsource.analyzer-commons:sonar-xml-parsing:2.8.0.2699")
+            force("org.sonarsource.sslr:sslr-core:1.24.0.633")
+            force("org.sonarsource.analyzer-commons:sonar-analyzer-recognizers:2.8.0.2699")
+            force("com.google.code.findbugs:jsr305:3.0.2")
+            force("commons-io:commons-io:2.15.1")
         }
     }
 }
@@ -61,6 +82,25 @@ subprojects {
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.compilerArgs.addAll(listOf("-Xlint:all,-serial,-processing"))
+    }
+
+    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
+    apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        java {
+            palantirJavaFormat("2.38.0")
+        }
+    }
+
+    plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
+    extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
+        strategy("PATTERN")
+        nonQualifierBranches("main,master")
+        tagVersionPattern("\${v}\${<meta.DIRTY_TEXT}")
+        versionPattern(
+                "\${v}\${<meta.COMMIT_DISTANCE}\${<meta.GIT_SHA1_8}" +
+                        "\${<meta.QUALIFIED_BRANCH_NAME}\${<meta.DIRTY_TEXT}-SNAPSHOT"
+        )
     }
 
     tasks.withType<Test> {
