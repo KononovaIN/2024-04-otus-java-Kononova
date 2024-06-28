@@ -5,7 +5,6 @@ include("hw03-annotation")
 include("hw04-gc")
 include("hw05-classLoader")
 include("hw06-atm")
-
 include("hw07-messageHandler")
 
 pluginManagement {
