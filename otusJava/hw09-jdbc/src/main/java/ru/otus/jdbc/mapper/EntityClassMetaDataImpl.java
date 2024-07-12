@@ -1,5 +1,6 @@
 package ru.otus.jdbc.mapper;
 
+import lombok.AllArgsConstructor;
 import ru.otus.annotation.Id;
 import ru.otus.exceptions.ReflectionException;
 
@@ -8,12 +9,9 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
+@AllArgsConstructor
 public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private final Class<T> actualClass;
-
-    public EntityClassMetaDataImpl(Class<T> actualClass) {
-        this.actualClass = actualClass;
-    }
 
     @Override
     public String getName() {
@@ -51,5 +49,16 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
         return Arrays.stream(actualClass.getDeclaredFields())
                 .filter(field -> !field.equals(getIdField()))
                 .toList();
+    }
+
+    @Override
+    public MetaData<T> getAllMetaData() {
+        return MetaData.<T>builder()
+                .name(getName())
+                .constructor(getConstructor())
+                .idField(getIdField())
+                .allFields(getAllFields())
+                .fieldsWithoutId(getFieldsWithoutId())
+                .build();
     }
 }

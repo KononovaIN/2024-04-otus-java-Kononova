@@ -4,7 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.List;
 
-/** "Разбирает" объект на составные части */
+/**
+ * "Разбирает" объект на составные части
+ */
 public interface EntityClassMetaData<T> {
     String getName();
 
@@ -17,4 +19,6 @@ public interface EntityClassMetaData<T> {
     List<Field> getAllFields();
 
     List<Field> getFieldsWithoutId();
+
+    MetaData<T> getAllMetaData();
 }

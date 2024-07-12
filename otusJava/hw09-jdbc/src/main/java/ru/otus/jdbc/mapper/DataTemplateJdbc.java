@@ -23,10 +23,10 @@ import java.util.Optional;
 public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     private final DbExecutor dbExecutor;
-    private final EntityClassMetaData<T> metaData;
+    private final MetaData<T> metaData;
     private final EntitySQLMetaData entitySQLMetaData;
 
-    public DataTemplateJdbc(DbExecutor dbExecutor, EntityClassMetaData<T> metaData) {
+    public DataTemplateJdbc(DbExecutor dbExecutor, MetaData<T> metaData) {
         this.dbExecutor = dbExecutor;
         this.metaData = metaData;
         this.entitySQLMetaData = new EntitySQLMetaDataImpl(metaData);

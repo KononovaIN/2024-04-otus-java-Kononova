@@ -1,17 +1,15 @@
 package ru.otus.jdbc.mapper;
 
+import lombok.AllArgsConstructor;
 import ru.otus.exceptions.ValidationException;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
-    private final EntityClassMetaData<?> metaData;
-
-    public EntitySQLMetaDataImpl(EntityClassMetaData<?> metaData) {
-        this.metaData = metaData;
-    }
+    private final MetaData<?> metaData;
 
     @Override
     public String getSelectAllSql() {

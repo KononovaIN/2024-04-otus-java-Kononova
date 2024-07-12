@@ -1,6 +1,5 @@
 package ru.otus;
 
-import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,11 @@ import ru.otus.crm.model.Client;
 import ru.otus.crm.model.Manager;
 import ru.otus.crm.service.DbServiceClientImpl;
 import ru.otus.crm.service.DbServiceManagerImpl;
-import ru.otus.jdbc.mapper.*;
+import ru.otus.jdbc.mapper.DataTemplateJdbc;
+import ru.otus.jdbc.mapper.EntityClassMetaData;
+import ru.otus.jdbc.mapper.EntityClassMetaDataImpl;
+
+import javax.sql.DataSource;
 
 @SuppressWarnings({"java:S125", "java:S1481"})
 public class HomeWork {
@@ -31,7 +34,7 @@ public class HomeWork {
         // Работа с клиентом
         EntityClassMetaData<Client> entityClassMetaDataClient = new EntityClassMetaDataImpl<>(Client.class);
         var dataTemplateClient = new DataTemplateJdbc<>(
-                dbExecutor, entityClassMetaDataClient); // реализация DataTemplate, универсальная
+                dbExecutor, entityClassMetaDataClient.getAllMetaData()); // реализация DataTemplate, универсальная
 
         // Код дальше должен остаться
         var dbServiceClient = new DbServiceClientImpl(transactionRunner, dataTemplateClient);
@@ -46,7 +49,7 @@ public class HomeWork {
         // Сделайте тоже самое с классом Manager (для него надо сделать свою таблицу)
 
         EntityClassMetaData<Manager> entityClassMetaDataManager = new EntityClassMetaDataImpl<>(Manager.class);
-        var dataTemplateManager = new DataTemplateJdbc<>(dbExecutor, entityClassMetaDataManager);
+        var dataTemplateManager = new DataTemplateJdbc<>(dbExecutor, entityClassMetaDataManager.getAllMetaData());
 
         var dbServiceManager = new DbServiceManagerImpl(transactionRunner, dataTemplateManager);
         dbServiceManager.saveManager(new Manager("ManagerFirst"));
