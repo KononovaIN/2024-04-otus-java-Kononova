@@ -16,9 +16,9 @@ public class DbServiceClientImpl implements DBServiceClient {
 
     private final DataTemplate<Client> clientDataTemplate;
     private final TransactionManager transactionManager;
-    private final HwCache<Long, Client> cache;
+    private final HwCache<String, Client> cache;
 
-    public DbServiceClientImpl(TransactionManager transactionManager, DataTemplate<Client> clientDataTemplate, HwCache<Long, Client> cache) {
+    public DbServiceClientImpl(TransactionManager transactionManager, DataTemplate<Client> clientDataTemplate, HwCache<String, Client> cache) {
         this.transactionManager = transactionManager;
         this.clientDataTemplate = clientDataTemplate;
         this.cache = cache;
@@ -32,14 +32,14 @@ public class DbServiceClientImpl implements DBServiceClient {
             if (client.getId() == null) {
                 var savedClient = clientDataTemplate.insert(session, clientCloned);
                 log.info("created client: {}", clientCloned);
-                cache.put(savedClient.getId(), savedClient.clone());
+                cache.put(String.valueOf(savedClient.getId()), savedClient.clone());
                 return savedClient;
             }
 
             var savedClient = clientDataTemplate.update(session, clientCloned);
             log.info("updated client: {}", savedClient);
 
-            cache.put(clientCloned.getId(), clientCloned);
+            cache.put(String.valueOf(clientCloned.getId()), clientCloned);
 
             return savedClient;
         });
@@ -47,14 +47,14 @@ public class DbServiceClientImpl implements DBServiceClient {
 
     @Override
     public Optional<Client> getClient(long id) {
-        Optional<Client> client = Optional.ofNullable(cache.get(id));
+        Optional<Client> client = Optional.ofNullable(cache.get(String.valueOf(id)));
 
         if (client.isEmpty()) {
             client = transactionManager.doInReadOnlyTransaction(session -> {
                 var clientOptional = clientDataTemplate.findById(session, id);
                 log.info("client: {}", clientOptional);
 
-                cache.put(id, clientOptional.get().clone());
+                cache.put(String.valueOf(id), clientOptional.get().clone());
                 return clientOptional;
             });
         }

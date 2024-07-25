@@ -70,11 +70,11 @@ public class DbServiceDemo {
         dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
     }
 
-    private static HwCache<Long, Client> setUpCache(){
-        HwCache<Long, Client> cache = new MyCache<>();
-        HwListener<Long, Client> listener = new HwListener<Long, Client>() {
+    private static HwCache<String, Client> setUpCache(){
+        HwCache<String, Client> cache = new MyCache<>();
+        HwListener<String, Client> listener = new HwListener<String, Client>() {
             @Override
-            public void notify(Long key, Client value, String action) {
+            public void notify(String key, Client value, String action) {
                 log.info("key:{}, value:{}, action: {}", key, value, action);
             }
         };

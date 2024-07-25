@@ -12,20 +12,20 @@ public class MyCache<K, V> implements HwCache<K, V> {
     @Override
     public void put(K key, V value) {
         cache.put(key, value);
-        listeners.forEach(l -> l.notify(key, value, "put"));
+        notifyListeners(key, value, "put");
     }
 
     @Override
     public void remove(K key) {
         V value = cache.get(key);
         cache.remove(key);
-        listeners.forEach(l -> l.notify(key, value, "remove"));
+        notifyListeners(key, value, "remove");
     }
 
     @Override
     public V get(K key) {
         V value = cache.get(key);
-        listeners.forEach(l -> l.notify(key, value, "get"));
+        notifyListeners(key, value, "get");
         return value;
     }
 
@@ -37,5 +37,15 @@ public class MyCache<K, V> implements HwCache<K, V> {
     @Override
     public void removeListener(HwListener<K, V> listener) {
         listeners.remove(listener);
+    }
+
+    private void notifyListeners(K key, V value, String action) {
+        for (var listener : listeners) {
+            try {
+                listener.notify(key, value, action);
+            } catch (Exception ignored) {
+
+            }
+        }
     }
 }
