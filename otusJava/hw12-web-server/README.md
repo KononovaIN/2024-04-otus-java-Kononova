@@ -22,3 +22,5 @@ http://localhost:8080
 
 // Страница для просмотра и добавления клиентов
 http://localhost:8080/clients
+
+Креды для входа: admin admin
