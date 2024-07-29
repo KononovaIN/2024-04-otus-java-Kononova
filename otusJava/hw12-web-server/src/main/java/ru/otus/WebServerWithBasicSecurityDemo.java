@@ -11,8 +11,8 @@ import ru.otus.dbmigrations.MigrationsExecutorFlyway;
 import ru.otus.model.Address;
 import ru.otus.model.Client;
 import ru.otus.model.Phone;
-import ru.otus.server.UsersWebServer;
-import ru.otus.server.UsersWebServerWithBasicSecurity;
+import ru.otus.server.ClientsWebServer;
+import ru.otus.server.ClientsWebServerWithBasicSecurity;
 import ru.otus.services.DbServiceClientImpl;
 import ru.otus.services.InMemoryLoginServiceImpl;
 import ru.otus.services.TemplateProcessor;
@@ -54,10 +54,10 @@ public class WebServerWithBasicSecurityDemo {
 
         LoginService loginService = new InMemoryLoginServiceImpl(userDao);
 
-        UsersWebServer usersWebServer =
-                new UsersWebServerWithBasicSecurity(WEB_SERVER_PORT, loginService, templateProcessor, dbServiceClient);
+        ClientsWebServer clientsWebServer =
+                new ClientsWebServerWithBasicSecurity(WEB_SERVER_PORT, loginService, templateProcessor, dbServiceClient);
 
-        usersWebServer.start();
-        usersWebServer.join();
+        clientsWebServer.start();
+        clientsWebServer.join();
     }
 }

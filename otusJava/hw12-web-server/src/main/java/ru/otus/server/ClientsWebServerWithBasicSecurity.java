@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
+public class ClientsWebServerWithBasicSecurity extends ClientsWebServerSimple {
     private static final String ROLE_NAME_USER = "user";
     private static final String ROLE_NAME_ADMIN = "admin";
 
     private final LoginService loginService;
 
-    public UsersWebServerWithBasicSecurity(
+    public ClientsWebServerWithBasicSecurity(
             int port, LoginService loginService, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
         super(port, templateProcessor, dbServiceClient);
         this.loginService = loginService;

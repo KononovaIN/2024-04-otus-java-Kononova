@@ -10,14 +10,14 @@ import ru.otus.services.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.servlet.ClientsServlet;
 
-public class UsersWebServerSimple implements UsersWebServer {
+public class ClientsWebServerSimple implements ClientsWebServer {
     private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
     protected final TemplateProcessor templateProcessor;
     private final Server server;
     private final DBServiceClient dbServiceClient;
 
-    public UsersWebServerSimple(int port, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
+    public ClientsWebServerSimple(int port, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
         this.dbServiceClient = dbServiceClient;
         this.templateProcessor = templateProcessor;
         server = new Server(port);
