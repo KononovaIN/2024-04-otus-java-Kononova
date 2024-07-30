@@ -37,6 +37,17 @@ allprojects {
     val asm: String by project
     val glassfishJson: String by project
 
+    val mongodb: String by project
+    val mongodbReactive: String by project
+    val cassandra: String by project
+    val neo4j: String by project
+    val jedis: String by project
+
+    val jetty: String by project
+    val freemarker: String by project
+
+    val reflections: String by project
+
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
         dependencies {
@@ -50,6 +61,25 @@ allprojects {
             dependency("org.openjdk.jmh:jmh-generator-annprocess:$jmh")
             dependency("org.glassfish:jakarta.json:$glassfishJson")
             dependency("org.ow2.asm:asm-commons:$asm")
+
+            dependency("com.datastax.oss:java-driver-core:$cassandra")
+            dependency("org.mongodb:mongodb-driver-core:$mongodb")
+            dependency("org.mongodb:mongodb-driver-sync:$mongodb")
+            dependency("org.mongodb:bson:$mongodb")
+            dependency("org.mongodb:mongodb-driver-reactivestreams:${mongodbReactive}")
+            dependency("org.neo4j.driver:neo4j-java-driver:$neo4j")
+            dependency("redis.clients:jedis:$jedis")
+
+            dependency("org.eclipse.jetty.ee10:jetty-ee10-servlet:$jetty")
+            dependency("org.eclipse.jetty:jetty-server:$jetty")
+            dependency("org.eclipse.jetty.ee10:jetty-ee10-webapp:$jetty")
+            dependency("org.eclipse.jetty:jetty-security:$jetty")
+            dependency("org.eclipse.jetty:jetty-http:$jetty")
+            dependency("org.eclipse.jetty:jetty-io:$jetty")
+            dependency("org.eclipse.jetty:jetty-util:$jetty")
+            dependency("org.freemarker:freemarker:$freemarker")
+
+            dependency("org.reflections:reflections:$reflections")
         }
     }
 
@@ -68,6 +98,8 @@ allprojects {
             force("org.sonarsource.analyzer-commons:sonar-analyzer-recognizers:2.8.0.2699")
             force("com.google.code.findbugs:jsr305:3.0.2")
             force("commons-io:commons-io:2.15.1")
+            force("com.google.errorprone:error_prone_annotations:2.26.1")
+            force("com.google.j2objc:j2objc-annotations:3.0.0")
         }
     }
 }
