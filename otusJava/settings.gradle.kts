@@ -6,6 +6,11 @@ include("hw04-gc")
 include("hw05-classLoader")
 include("hw06-atm")
 include("hw07-messageHandler")
+include("hw08-jsonHandler")
+include("hw09-jdbc")
+include("hw10-Hibernate")
+include("hw11-cache")
+include("hw12-web-server")
 
 pluginManagement {
     val jgitver: String by settings
@@ -28,8 +33,3 @@ pluginManagement {
         id("com.diffplug.spotless") version spotless
     }
 }
-include("hw08-jsonHandler")
-include("hw09-jdbc")
-include("hw10-Hibernate")
-include("hw11-cache")
-include("hw12-web-server")
