@@ -9,7 +9,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("squid:S1068")
 public class AppComponentsContainerImpl implements AppComponentsContainer {
@@ -28,7 +27,9 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     public AppComponentsContainerImpl(String pathInitialConfigClass) {
         Reflections reflections = new Reflections(pathInitialConfigClass);
 
-        processConfig(reflections.getTypesAnnotatedWith(AppComponentsContainerConfig.class).toArray(new Class[0]));
+        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(AppComponentsContainerConfig.class);
+
+        processConfig(annotated.toArray(new Class[0]));
     }
 
     private void processConfig(Class<?>... initialConfigClass) {
@@ -47,15 +48,16 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                     Class<?>[] parameters = m.getParameterTypes();
                     AppComponent annotation = m.getAnnotation(AppComponent.class);
 
-                    if (parameters.length == 0) {
-                        Object bean = m.invoke(instance);
-                        addBean(bean, annotation.name());
-                    } else {
-                        Object[] args = getArgsForBean(parameters);
-
-                        Object bean = m.invoke(instance, args);
-                        addBean(bean, annotation.name());
+                    boolean containedValue = appComponentsByName.containsValue(annotation.name());
+                    if (containedValue) {
+                        throw new RuntimeException("Невозможно создать бин. Бин с таким параметром уже есть");
                     }
+
+                    Object[] args = getArgsForBean(parameters);
+
+                    Object bean = m.invoke(instance, args);
+                    addBean(bean, annotation.name());
+
                 }
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                      IllegalAccessException e) {
@@ -65,9 +67,9 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     }
 
     private void checkConfigClass(Class<?> configClass) {
-            if (!configClass.isAnnotationPresent(AppComponentsContainerConfig.class)) {
-                throw new IllegalArgumentException(String.format("Given class is not config %s", configClass.getName()));
-            }
+        if (!configClass.isAnnotationPresent(AppComponentsContainerConfig.class)) {
+            throw new IllegalArgumentException(String.format("Given class is not config %s", configClass.getName()));
+        }
     }
 
     @Override
@@ -108,7 +110,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 .toList();
     }
 
-    private List<Class<?>> sortedConfigByOrder(Class<?>[] configClass){
+    private List<Class<?>> sortedConfigByOrder(Class<?>[] configClass) {
         return Arrays.stream(configClass)
                 .sorted((Comparator.comparingInt(o -> o.getDeclaredAnnotation(AppComponentsContainerConfig.class).order())))
                 .toList();
@@ -116,15 +118,10 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     private void addBean(Object bean, String annotationName) {
         appComponents.add(bean);
-        Object component = appComponentsByName.get(annotationName);
-        if (component == null) {
-            appComponentsByName.put(annotationName, bean);
-        } else {
-            throw new RuntimeException("Невозможно создать бин. Бин с таким параметром уже есть");
-        }
+        appComponentsByName.put(annotationName, bean);
     }
 
-    private Object[] getArgsForBean(Class<?>[] parameters){
+    private Object[] getArgsForBean(Class<?>[] parameters) {
         List<Object> args = new ArrayList<>();
 
         Arrays.stream(parameters)
