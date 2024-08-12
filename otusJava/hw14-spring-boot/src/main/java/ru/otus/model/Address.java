@@ -13,9 +13,9 @@ import java.util.Set;
 @Table(name = "address")
 public class Address {
     @Id
-    private Long id;
+    private final Long id;
 
-    private String street;
+    private final String street;
 
     public Address(String street) {
         this(null, street);

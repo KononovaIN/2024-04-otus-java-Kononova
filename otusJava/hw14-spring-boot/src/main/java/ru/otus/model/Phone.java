@@ -10,15 +10,15 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(name = "phone")
 public class Phone {
     @Id
-    private final Long id;
+    private final Long phoneId;
 
     private final Long clientId;
 
     private final String number;
 
     @PersistenceCreator
-    public Phone(Long id, Long clientId, String number) {
-        this.id = id;
+    public Phone(Long phoneId, Long clientId, String number) {
+        this.phoneId = phoneId;
         this.clientId = clientId;
         this.number = number;
     }
