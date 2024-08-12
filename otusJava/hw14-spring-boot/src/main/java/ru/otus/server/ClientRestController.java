@@ -14,6 +14,8 @@ import ru.otus.service.DbServiceClientImpl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -22,9 +24,9 @@ public class ClientRestController {
 
     @PostMapping("/clients")
     public RedirectView saveClint(@RequestBody ClientRequest clientRequest){
-        List<Phone> phoneList = Arrays.stream(clientRequest.phones().split(","))
+        Set<Phone> phoneList = Arrays.stream(clientRequest.phones().split(","))
                 .map(Phone::new)
-                .toList();
+                .collect(Collectors.toSet());
 
         Client client = new Client(clientRequest.name(), new Address(clientRequest.address()), phoneList);
 
