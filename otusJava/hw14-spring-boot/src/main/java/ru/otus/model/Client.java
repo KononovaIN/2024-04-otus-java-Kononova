@@ -23,7 +23,7 @@ public class Client{
     @Column("name")
     private final String name;
 
-    @MappedCollection(idColumn = "client_id")
+    @MappedCollection(idColumn = "id")
     private final Address address;
 
     @MappedCollection(idColumn = "client_id")
