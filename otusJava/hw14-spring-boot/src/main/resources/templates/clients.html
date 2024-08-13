@@ -74,7 +74,7 @@
         <tr th:each="client : ${clients}">
             <td th:text="${client.id}"></td>
             <td th:text="${client.name}"></td>
-            <td th:text="${client.address.street}"></td>
+            <td th:text="${client.street}"></td>
             <td>
                 <span th:each="phone : ${client.phones}">
                     <div th:text="${phone.number}"></div>

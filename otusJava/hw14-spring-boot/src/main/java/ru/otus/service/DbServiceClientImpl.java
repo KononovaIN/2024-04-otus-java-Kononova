@@ -1,5 +1,7 @@
 package ru.otus.service;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,16 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
+@Slf4j
 public class DbServiceClientImpl implements DBServiceClient {
-    private static final Logger log = LoggerFactory.getLogger(DbServiceClientImpl.class);
-
     private final TransactionManager transactionManager;
     private final ClientRepository clientRepository;
-
-    public DbServiceClientImpl(TransactionManager transactionManager, ClientRepository clientRepository) {
-        this.transactionManager = transactionManager;
-        this.clientRepository = clientRepository;
-    }
 
     @Override
     public Client saveClient(Client client) {

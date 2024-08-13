@@ -8,7 +8,6 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.List;
 import java.util.Set;
 
 @Table(name = "client")
@@ -22,21 +21,20 @@ public class Client{
     @Column("name")
     private final String name;
 
-    @MappedCollection(idColumn = "id")
-    private final Address address;
+    private final Long addressId;
 
     @MappedCollection(idColumn = "client_id")
     private final Set<Phone> phones;
 
-    public Client(String name, Address address, Set<Phone> phones) {
-        this(null, name, address, phones);
+    public Client(String name, Long addressId, Set<Phone> phones) {
+        this(null, name, addressId, phones);
     }
 
     @PersistenceCreator
-    public Client(Long id, String name, Address address, Set<Phone> phones) {
+    public Client(Long id, String name, Long addressId, Set<Phone> phones) {
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.addressId = addressId;
         this.phones = phones;
     }
 }

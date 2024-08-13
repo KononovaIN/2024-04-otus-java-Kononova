@@ -1,7 +1,6 @@
 package ru.otus.server;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,17 +9,19 @@ import ru.otus.dto.ClientRequest;
 import ru.otus.model.Address;
 import ru.otus.model.Client;
 import ru.otus.model.Phone;
+import ru.otus.service.DBServiceClient;
+import ru.otus.service.DbServiceAddress;
 import ru.otus.service.DbServiceClientImpl;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
 public class ClientRestController {
-    private final DbServiceClientImpl repository;
+    private final DBServiceClient clientRepository;
+    private final DbServiceAddress  addressRepository;
 
     @PostMapping("/clients")
     public RedirectView saveClint(@RequestBody ClientRequest clientRequest){
@@ -28,9 +29,11 @@ public class ClientRestController {
                 .map(Phone::new)
                 .collect(Collectors.toSet());
 
-        Client client = new Client(clientRequest.name(), new Address(clientRequest.address()), phoneList);
+        var savingAddress = addressRepository.saveAddress(new Address(clientRequest.address()));
 
-        repository.saveClient(client);
+        Client client = new Client(clientRequest.name(), savingAddress.getId(), phoneList);
+
+        clientRepository.saveClient(client);
 
         return new RedirectView("/clients", true);
     }
