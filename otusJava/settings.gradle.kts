@@ -12,6 +12,9 @@ include("hw10-Hibernate")
 include("hw11-cache")
 include("hw12-web-server")
 include("hw13-ioc")
+include("hw14-spring-boot")
+include("hw15-executors")
+include("hw16-Queues")
 
 pluginManagement {
     val jgitver: String by settings
@@ -34,5 +37,3 @@ pluginManagement {
         id("com.diffplug.spotless") version spotless
     }
 }
-include("hw14-spring-boot")
-include("hw15-executors")
