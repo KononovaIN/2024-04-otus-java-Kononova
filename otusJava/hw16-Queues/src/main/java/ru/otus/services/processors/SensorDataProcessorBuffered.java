@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 // Этот класс нужно реализовать
 @SuppressWarnings({"java:S1068", "java:S125"})
@@ -19,16 +20,16 @@ public class SensorDataProcessorBuffered implements SensorDataProcessor {
 
     private final int bufferSize;
     private final SensorDataBufferedWriter writer;
-    private final BlockingQueue<SensorData> dataBuffer;
+    private final PriorityBlockingQueue<SensorData> dataBuffer;
 
     public SensorDataProcessorBuffered(int bufferSize, SensorDataBufferedWriter writer) {
         this.bufferSize = bufferSize;
         this.writer = writer;
-        this.dataBuffer = new ArrayBlockingQueue<>(bufferSize);
+        this.dataBuffer = new PriorityBlockingQueue<>(bufferSize, Comparator.comparing(SensorData::getMeasurementTime));
     }
 
     @Override
-    public void process(SensorData data) {
+    public synchronized void process(SensorData data) {
         dataBuffer.add(data);
 
         if (dataBuffer.size() >= bufferSize) {
@@ -40,7 +41,6 @@ public class SensorDataProcessorBuffered implements SensorDataProcessor {
         List<SensorData> bufferedData = new ArrayList<>();
         dataBuffer.drainTo(bufferedData);
 
-        bufferedData.sort(Comparator.comparing(SensorData::getMeasurementTime));
         try {
             if (!bufferedData.isEmpty()) {
                 writer.writeBufferedData(bufferedData);

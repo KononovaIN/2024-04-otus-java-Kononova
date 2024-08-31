@@ -30,8 +30,7 @@ import ru.otus.lib.SensorDataBufferedWriter;
 class SensorDataProcessorBufferedTest {
     private static final Logger log = LoggerFactory.getLogger(SensorDataProcessorBufferedTest.class);
 
-    public static final int BUFFER_SIZE = 4;
-            //2000;
+    public static final int BUFFER_SIZE = 2000;
     public static final String ANY_ROOM = "AnyRoom";
 
     @Mock
