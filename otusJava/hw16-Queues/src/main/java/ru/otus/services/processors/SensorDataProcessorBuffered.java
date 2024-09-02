@@ -20,7 +20,7 @@ public class SensorDataProcessorBuffered implements SensorDataProcessor {
 
     private final int bufferSize;
     private final SensorDataBufferedWriter writer;
-    private final PriorityBlockingQueue<SensorData> dataBuffer;
+    private final BlockingQueue<SensorData> dataBuffer;
 
     public SensorDataProcessorBuffered(int bufferSize, SensorDataBufferedWriter writer) {
         this.bufferSize = bufferSize;
@@ -29,7 +29,7 @@ public class SensorDataProcessorBuffered implements SensorDataProcessor {
     }
 
     @Override
-    public synchronized void process(SensorData data) {
+    public void process(SensorData data) {
         dataBuffer.add(data);
 
         if (dataBuffer.size() >= bufferSize) {
@@ -37,7 +37,7 @@ public class SensorDataProcessorBuffered implements SensorDataProcessor {
         }
     }
 
-    public void flush() {
+    public synchronized void flush() {
         List<SensorData> bufferedData = new ArrayList<>();
         dataBuffer.drainTo(bufferedData);
 
