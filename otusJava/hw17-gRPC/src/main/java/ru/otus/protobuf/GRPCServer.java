@@ -1,10 +1,12 @@
 package ru.otus.protobuf;
 
 import io.grpc.ServerBuilder;
+import lombok.extern.slf4j.Slf4j;
 import ru.otus.protobuf.service.RemoteServiceImpl;
 
 import java.io.IOException;
 
+@Slf4j
 @SuppressWarnings({"squid:S106"})
 public class GRPCServer {
 
@@ -17,7 +19,7 @@ public class GRPCServer {
                 ServerBuilder.forPort(SERVER_PORT).addService(remoteService).build();
         server.start();
 
-        System.out.println("Server waiting for client connections...");
+        log.info("Server waiting for client connections...");
         server.awaitTermination();
     }
 }
