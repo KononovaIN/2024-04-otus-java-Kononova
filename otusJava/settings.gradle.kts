@@ -16,6 +16,8 @@ include("hw14-spring-boot")
 include("hw15-executors")
 include("hw16-Queues")
 include("hw17-gRPC")
+include ("hw18-1408:client-service")
+include ("hw18-1408:datastore-service")
 
 pluginManagement {
     val jgitver: String by settings
