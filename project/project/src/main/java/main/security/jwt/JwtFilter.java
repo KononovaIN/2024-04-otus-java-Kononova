@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class JwtFilter extends GenericFilterBean {
 
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public JwtFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -26,6 +26,7 @@ public class JwtFilter extends GenericFilterBean {
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication auth = jwtTokenProvider.getAuthentication(token);
+
             if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }

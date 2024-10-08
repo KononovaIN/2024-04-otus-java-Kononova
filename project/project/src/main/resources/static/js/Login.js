@@ -1,8 +1,8 @@
 "use strict"
 
-async function myregister(e) {
+async function login(e) {
 
-    await fetch('/registration/singing', {
+    await fetch('/login/process-login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

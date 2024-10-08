@@ -1,20 +1,13 @@
 package main.web;
 
 import lombok.RequiredArgsConstructor;
-import main.entity.BookTypes;
 import main.repos.BookTypesRepository;
 import main.repos.BooksRepository;
 import main.repos.ClientsRepository;
 import main.repos.JournalRepository;
-import main.service.BookTypesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,5 +45,10 @@ public class TemplatesController {
     @GetMapping("/registration")
     public String registrationPage() {
         return "registration";
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 }

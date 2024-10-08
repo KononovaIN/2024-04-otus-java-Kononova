@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/registration")
-public class AuthController {
-
+@RequestMapping("/login")
+public class AuthLogin {
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -35,16 +32,10 @@ public class AuthController {
     @Autowired
     PasswordEncoder pwdEncoder;
 
-    @PostMapping(value = "/singing", consumes = "application/json", produces = "application/json")
-    public ResponseEntity addUser(@RequestBody AuthRequest request) {
+    @PostMapping(value = "/process-login", consumes = "application/json", produces = "application/json")
+    public ResponseEntity login(@RequestBody AuthRequest request) {
         try {
             String name = request.getUserName();
-
-            Optional<User> userByUserName = userRep.findUserByUserName(name);
-            if (userByUserName.isEmpty()) {
-                userRep.save(new User(name, pwdEncoder.encode(request.getPassword()),
-                        Collections.singletonList("ROLE_USER")));
-            }
 
             User user = userRep.findUserByUserName(name)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -53,7 +44,6 @@ public class AuthController {
                     name,
                     user.getRoles()
             );
-
 
             Map<Object, Object> model = new HashMap<>();
             model.put("userName", name);
