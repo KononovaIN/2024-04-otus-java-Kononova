@@ -1,43 +1,43 @@
 package main.entity;
 
-import lombok.Data;
-
-import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
+import javax.persistence.*;
+import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "Journal")
 public class Journal {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "id")
-    private Long id;
 
-    @Column(name = "bookId")
-    private Long bookId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
 
-    @Column(name = "clientId")
-    private Long clientId;
+  @Column(name = "bookId")
+  private Long bookId;
 
-    @Column(name = "dateBeg")
-    private Timestamp dateBeg;
+  @Column(name = "clientId")
+  private Long clientId;
 
-    @Column(name = "dateEnd")
-    private Timestamp dateEnd;
+  @Column(name = "dateBeg")
+  private Timestamp dateBeg;
 
-    @Column(name = "dateRet")
-    private Timestamp dateRet;
+  @Column(name = "dateEnd")
+  private Timestamp dateEnd;
 
-    public Journal() {
-    }
+  @Column(name = "dateRet")
+  private Timestamp dateRet;
 
-    public Journal(Long bookId, Long clientId, Timestamp dateBeg, Timestamp dateEnd,Timestamp dateRet){
-        this.bookId = bookId;
-        this.clientId = clientId;
-        this.dateBeg = dateBeg;
-        this.dateEnd = dateEnd;
-        this.dateRet = dateRet;
-    }
+  public Journal() {
+  }
+
+  public Journal(Long bookId, Long clientId, Timestamp dateBeg, Timestamp dateEnd,
+      Timestamp dateRet) {
+    this.bookId = bookId;
+    this.clientId = clientId;
+    this.dateBeg = dateBeg;
+    this.dateEnd = dateEnd;
+    this.dateRet = dateRet;
+  }
 }

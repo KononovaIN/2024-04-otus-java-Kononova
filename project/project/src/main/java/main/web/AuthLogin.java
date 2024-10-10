@@ -1,5 +1,7 @@
 package main.web;
 
+import java.util.HashMap;
+import java.util.Map;
 import main.entity.User;
 import main.repos.UserRepository;
 import main.security.jwt.JwtTokenProvider;
@@ -10,49 +12,44 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
 public class AuthLogin {
-    @Autowired
-    AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
+  @Autowired
+  AuthenticationManager authenticationManager;
 
-    @Autowired
-    UserRepository userRep;
-    @Autowired
-    PasswordEncoder pwdEncoder;
+  @Autowired
+  JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping(value = "/process-login", consumes = "application/json", produces = "application/json")
-    public ResponseEntity login(@RequestBody AuthRequest request) {
-        try {
-            String name = request.getUserName();
+  @Autowired
+  UserRepository userRep;
+  @Autowired
+  PasswordEncoder pwdEncoder;
 
-            User user = userRep.findUserByUserName(name)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+  @PostMapping(value = "/process-login", consumes = "application/json", produces = "application/json")
+  public ResponseEntity login(@RequestBody AuthRequest request) {
+    try {
+      String name = request.getUserName();
 
-            String token = jwtTokenProvider.createToken(
-                    name,
-                    user.getRoles()
-            );
+      User user = userRep.findUserByUserName(name)
+          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            Map<Object, Object> model = new HashMap<>();
-            model.put("userName", name);
-            model.put("token", token);
-            model.put("role", user.getRoles());
+      String token = jwtTokenProvider.createToken(
+          name,
+          user.getRoles()
+      );
 
-            return ResponseEntity.ok(model);
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid userName or password");
-        }
+      Map<Object, Object> model = new HashMap<>();
+      model.put("userName", name);
+      model.put("token", token);
+      model.put("role", user.getRoles());
+
+      return ResponseEntity.ok(model);
+    } catch (AuthenticationException e) {
+      throw new BadCredentialsException("Invalid userName or password");
     }
+  }
 }
