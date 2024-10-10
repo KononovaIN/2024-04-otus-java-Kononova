@@ -16,30 +16,38 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+  @Autowired
+  private JwtTokenProvider jwtTokenProvider;
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin(form -> form.defaultSuccessUrl("/books", true))
-                //.and()
-                .authorizeRequests()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/journal").authenticated()
-                .antMatchers("/clients").authenticated()
-                .antMatchers("/books").authenticated()
-                .antMatchers("/bookTypes").authenticated()
-                .antMatchers("/library/**").authenticated()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable()
-                .httpBasic().disable()
-                .apply(new JwtSecurityConfigurer(jwtTokenProvider));
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.formLogin(form -> form.defaultSuccessUrl("/books", true))
+        .authorizeRequests()
+        .antMatchers("/registration").permitAll()
+        .antMatchers("/journal").hasRole("ADMIN")
+        .antMatchers("/clients").hasRole("ADMIN")
+        .antMatchers(HttpMethod.GET, "/books").authenticated()
+        .antMatchers(HttpMethod.GET, "/bookTypes").authenticated()
+        .antMatchers(HttpMethod.GET, "/library/**").authenticated()
+        .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/bookTypes").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/library/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, "/books").hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, "/bookTypes").hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, "/library/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/books").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/bookTypes").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/library/**").hasRole("ADMIN")
+        .anyRequest().authenticated()
+        .and()
+        .csrf().disable()
+        .httpBasic().disable()
+        .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+  }
 }
