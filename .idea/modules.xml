@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/2024-04-otus-java-Kononova.iml" filepath="$PROJECT_DIR$/.idea/2024-04-otus-java-Kononova.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw01-gradle/otusJava.hw01-gradle.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw01-gradle/otusJava.hw01-gradle.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw03-annotation/otusJava.hw03-annotation.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw03-annotation/otusJava.hw03-annotation.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw05-classLoader/otusJava.hw05-classLoader.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw05-classLoader/otusJava.hw05-classLoader.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw06-atm/otusJava.hw06-atm.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw06-atm/otusJava.hw06-atm.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw07-messageHandler/otusJava.hw07-messageHandler.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw07-messageHandler/otusJava.hw07-messageHandler.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw09-jdbc/otusJava.hw09-jdbc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw09-jdbc/otusJava.hw09-jdbc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw10-Hibernate/otusJava.hw10-Hibernate.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw10-Hibernate/otusJava.hw10-Hibernate.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw11-cache/otusJava.hw11-cache.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw11-cache/otusJava.hw11-cache.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw12-web-server/otusJava.hw12-web-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw12-web-server/otusJava.hw12-web-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw14-spring-boot/otusJava.hw14-spring-boot.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw14-spring-boot/otusJava.hw14-spring-boot.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw16-Queues/otusJava.hw16-Queues.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw16-Queues/otusJava.hw16-Queues.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hw17-gRPC/otusJava.hw17-gRPC.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hw17-gRPC/otusJava.hw17-gRPC.main.iml" />
+    </modules>
+  </component>
+</project>

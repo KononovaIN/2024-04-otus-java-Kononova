@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/otusJava" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/otusJava" />
+            <option value="$PROJECT_DIR$/otusJava/hw01-gradle" />
+            <option value="$PROJECT_DIR$/otusJava/hw02-generics" />
+            <option value="$PROJECT_DIR$/otusJava/hw03-annotation" />
+            <option value="$PROJECT_DIR$/otusJava/hw04-gc" />
+            <option value="$PROJECT_DIR$/otusJava/hw05-classLoader" />
+            <option value="$PROJECT_DIR$/otusJava/hw06-atm" />
+            <option value="$PROJECT_DIR$/otusJava/hw07-messageHandler" />
+            <option value="$PROJECT_DIR$/otusJava/hw08-jsonHandler" />
+            <option value="$PROJECT_DIR$/otusJava/hw09-jdbc" />
+            <option value="$PROJECT_DIR$/otusJava/hw10-Hibernate" />
+            <option value="$PROJECT_DIR$/otusJava/hw11-cache" />
+            <option value="$PROJECT_DIR$/otusJava/hw12-web-server" />
+            <option value="$PROJECT_DIR$/otusJava/hw13-ioc" />
+            <option value="$PROJECT_DIR$/otusJava/hw14-spring-boot" />
+            <option value="$PROJECT_DIR$/otusJava/hw15-executors" />
+            <option value="$PROJECT_DIR$/otusJava/hw16-Queues" />
+            <option value="$PROJECT_DIR$/otusJava/hw17-gRPC" />
+            <option value="$PROJECT_DIR$/otusJava/hw18-1408" />
+            <option value="$PROJECT_DIR$/otusJava/hw18-1408/client-service" />
+            <option value="$PROJECT_DIR$/otusJava/hw18-1408/datastore-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
